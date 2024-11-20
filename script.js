@@ -5,7 +5,7 @@ const sectors = [
   { color: "#FF5A10", text: "#333333", label: "4         ", heading: "shoulder surfing", description: "__________ is a type of social engineering attack where an attacker gains sensitive information by observing someone’s screen or keypad inputs, such as passwords or PINs, often without their knowledge." },
   { color: "#FFBC03", text: "#333333", label: "5         ", heading: "Spyware", description: "_________ collects information from a device without consent." },
   { color: "#FF5A10", text: "#333333", label: "6         ", heading: "Social Engineering", description: "___________  exploits human psychology to gain access to systems." },
-  { color: "#FFBC03", text: "#333333", label: "7         ", heading: "Denial-of-Service (DoS)", description: "_________ s a type of cyberattack where the attacker overwhelms a system, server, or network with excessive traffic or requests, causing it to become unavailable to legitimate users." },
+  { color: "#FFBC03", text: "#333333", label: "7         ", heading: "Denial-of-Service (DoS)", description: "_________ is a type of cyberattack where the attacker overwhelms a system, server, or network with excessive traffic or requests, causing it to become unavailable to legitimate users." },
   { color: "#FF5A10", text: "#333333", label: "8         ", heading: "Trojan Horse", description: "A _________ disguises itself as a legitimate program." },
 ];
   
