@@ -12,7 +12,7 @@ body {
   display: grid;
   place-items: center;
   margin: 0;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: black;
   /* background-image: url('./second.png'); */
   background-size: contain;
   background-repeat: no-repeat;
@@ -34,7 +34,7 @@ body {
   overflow: hidden;
   z-index: 6;
   width: 90vw;
-  max-width: 500px;
+  max-width: 900px;
   aspect-ratio: 1 / 1;
   transition: transform 0.3s ease-out; /* Smooth zoom effect */
 }
@@ -46,7 +46,7 @@ body {
 }
 
 #spin {
-  font: 1.5em/0 "Lato", sans-serif;
+  font: 1.7em/0 "Lato", sans-serif;
   user-select: none;
   cursor: pointer;
   display: flex;
