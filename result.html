@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spin Result</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-size: cover;
+      background-position: center;
+      background-color: black;
+      transition: background 0.3s ease;
+    }
+
+    .result-container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      max-width: 90%;
+      width: 400px;
+      box-sizing: border-box;
+    }
+
+    .result-title {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      word-wrap: break-word;
+    }
+
+    .result-description {
+      font-size: 1.2rem;
+    }
+
+    .hint-container {
+      margin-top: 20px;
+      padding: 10px;
+      background: #ffebcc;
+      border-left: 4px solid #ffc107;
+      color: #555;
+      font-size: 0.9em;
+      display: none;
+      text-align: left;
+    }
+
+    .hint-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+
+    .timer {
+      font-size: 1.2em;
+      color: #e74c3c;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #fff;
+      background: #ff5a10;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #ff751a;
+    }
+
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .result-container {
+        width: 80%;
+        padding: 15px;
+      }
+
+      .result-title {
+        font-size: 1.5rem;
+      }
+
+      .result-description {
+        font-size: 1rem;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+
+      .hint-container {
+        font-size: 0.8em;
+      }
+
+      .timer {
+        font-size: 1em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .result-container {
+        width: 90%;
+        padding: 10px;
+      }
+
+      .result-title {
+        font-size: 1.2rem;
+      }
+
+      .result-description {
+        font-size: 0.9rem;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+      }
+
+      .hint-container {
+        font-size: 0.7em;
+      }
+
+      .timer {
+        font-size: 1.1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="result-container">
+    <h1 class="result-title" id="result-heading"></h1>
+    <p class="result-description" id="result-description">Result description will appear here.</p>
+    <button class="btn" id="show-hint-btn">Show Hint</button>
+    <div class="hint-container" id="hint"></div>
+    <div class="timer" id="timer"></div>
+    <button class="btn" onclick="goHome()">Back to Spin</button>
+  </div>
+
+  <script>
+    // Map of results to background images
+    const backgroundImages = {
+      "1": "./background1.jpg",
+      "2": "./background2.jpg",
+      "3": "./background3.jpg",
+      "4": "./background4.jpg",
+      "5": "./background5.jpg",
+      "6": "./background6.jpg",
+      "7": "./background7.jpg",
+      "8": "./background8.jpg",
+    };
+
+    // Map of hints for each result (could be text or image)
+    const hints = {
+      "1": null,
+      "2": {
+        type: "image", // "text" or "image"
+        content: "res3.jpg"
+      }, // No hint available for this result
+      "3": {
+        type: "image",
+        content: "res4.jpg"
+      },
+      "4": null, // No hint available for this result
+      "5": {
+        type: "text",
+        content: "psywear"
+      },
+      "6": null, // No hint available for this result
+      "7": {
+        type: "text",
+        content: "DoS is the abbreviation"
+      },
+      "8": {
+        type: "text",
+        content: "2 words,the last word is horse"
+      }
+    };
+
+    // Retrieve the spin result from localStorage
+    const result = JSON.parse(localStorage.getItem("spinResult"));
+
+    if (result) {
+      // Update the result title and description
+      // document.getElementById("result-heading").textContent = `${result.label}: ${result.heading}`;
+      document.getElementById("result-description").textContent = result.description;
+
+      // Set the background image dynamically based on the result number
+      const backgroundImage = backgroundImages[result.label.trim()];
+      document.body.style.backgroundImage = `url(${backgroundImage})`;
+
+    
+    }
+
+    // Hint functionality
+    const hintButton = document.getElementById('show-hint-btn');
+    const hintContainer = document.getElementById('hint');
+    const timerElement = document.getElementById('timer');
+
+    let hintUsed = false; // To track if the hint has been used
+    let hintTimeout;
+    let countdownTimer;
+
+    // Check if hint is available for the current result and disable button if not
+    if (!hints[result.label.trim()]) {
+      hintButton.disabled = true; // Disable the hint button if no hint is available
+    }
+
+    hintButton.addEventListener('click', () => {
+      if (!hintUsed) {
+        // Get the hint based on the result
+        const hint = hints[result.label.trim()];
+
+        if (hint) {
+          if (hint.type === "text") {
+            hintContainer.innerHTML = `<p>${hint.content}</p>`;
+          } else if (hint.type === "image") {
+            hintContainer.innerHTML = `<img src="./${hint.content}" alt="Hint Image">`;
+          }
+
+          // Show hint
+          hintContainer.style.display = 'block';
+          hintUsed = true;
+          hintButton.disabled = true; // Disable button after use
+
+          // Start the countdown timer (30 seconds)
+          let timeLeft = 60;
+          countdownTimer = setInterval(() => {
+            if (timeLeft > 0) {
+              timerElement.textContent = `Hint will disappear in: ${timeLeft}s`;
+              timeLeft--;
+            } else {
+              clearInterval(countdownTimer); // Stop the timer when it reaches 0
+              hintContainer.style.display = 'none'; // Hide the hint
+              timerElement.textContent = ''; // Remove the timer text
+            }
+          }, 1000);
+
+          // Hide hint after 30 seconds (60000ms)
+          hintTimeout = setTimeout(() => {
+            hintContainer.style.display = 'none';
+          }, 60000); // 30 seconds
+        }
+      }
+    });
+
+    // Go back to the spinning page
+    function goHome() {
+      window.location.href = "index.html"; // Adjust the path if needed
+    }
+  </script>
+</body>
+</html>

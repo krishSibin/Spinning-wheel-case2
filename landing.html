@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Spin the Wheel Game</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+    body {
+        font-family: 'Montserrat', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: black;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .title {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .description {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #555;
+      word-spacing: .2rem;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      background-color: #ff5a10;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #ff751a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="title">Welcome to Spin the Wheel Game!</h1>
+    <p class="description">
+        "Welcome to the ultimate challenge of knowledge and luck! In this simple yet exciting game, you have three chances to spin the wheel. Each spin reveals a clue related to information security, and your task is to guess the word connected to it. The more lucky you are, the better the hints you'll receive to guide you toward the correct answer. Are you ready to test your wits and your luck? Spin the wheel and start guessing!"
+    </p>
+    <button class="btn" onclick="startGame()">Start Game</button>
+  </div>
+
+  <script>
+    function startGame() {
+      window.location.href = 'index.html'; // Redirect to spin page
+    }
+  </script>
+
+</body>
+</html>
